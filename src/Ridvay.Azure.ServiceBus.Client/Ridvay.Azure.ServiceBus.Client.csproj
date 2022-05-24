@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	<Description>POCO/DTO driven Azure ServiceBus client</Description>
+	<PackageProjectUrl>https://github.com/tom-tgr/Ridvay.Azure.ServiceBus.Client</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/tom-tgr/Ridvay.Azure.ServiceBus.Client</RepositoryUrl>
+	<PackageTags>az</PackageTags>
+	<Authors>tom-tgr</Authors>
+	<Company>Ridvay</Company>
+	<Product>ServiceBus Client</Product>
+	<Version>5.0.0-beta</Version>
+	<Copyright />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.7" />
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

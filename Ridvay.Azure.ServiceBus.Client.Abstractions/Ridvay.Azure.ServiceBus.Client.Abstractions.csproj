@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>This package is used to configure POCO/DTO transfer options for Ridvay.Azure.ServiceBus.Client</Description>
+    <PackageProjectUrl>https://github.com/tom-tgr/Ridvay.Azure.ServiceBus.Client</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tom-tgr/Ridvay.Azure.ServiceBus.Client</RepositoryUrl>
+    <PackageTags>az</PackageTags>
+    <Authors>tom-tgr</Authors>
+    <Company>Ridvay</Company>
+    <Product>ServiceBus Client</Product>
+    <Version>5.0.0-beta</Version>
+    <Copyright />
+  </PropertyGroup>
+
+</Project>
