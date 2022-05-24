@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj" />
+    <ProjectReference Include="..\Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

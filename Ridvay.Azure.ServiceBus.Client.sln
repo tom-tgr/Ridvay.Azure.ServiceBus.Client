@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ridvay.Azure.ServiceBus.Cli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AF8849BF-2648-4D97-BD0A-20CEB0E37009}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ridvay.Azure.ServiceBus.Client.Abstractions", "Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj", "{73DB0A48-3105-426B-BA38-DAFE3AC17C31}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F19AF011-0C6B-4C66-9A91-4B3BEC04739A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit-tests", "unit-tests", "{63DEBEF6-B5BB-4454-B495-602E13EE8C7A}"
@@ -18,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "end-2-end", "end-2-end", "{8EFF5E82-5315-4465-A395-494D692346CF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ridvay.Azure.ServiceBus.Client.End2End.Test", "tests\end-2-end\Ridvay.Azure.ServiceBus.Client.End2End.RequestReplay.Test\Ridvay.Azure.ServiceBus.Client.End2End.Test.csproj", "{4787C4DA-26DF-4E38-B347-1E0A68E59C02}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ridvay.Azure.ServiceBus.Client.Abstractions", "src\Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj", "{5E4F5E63-8E13-45AA-8142-7A21D8530054}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{0140F725-991B-45FC-8F62-BF555505E2AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0140F725-991B-45FC-8F62-BF555505E2AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0140F725-991B-45FC-8F62-BF555505E2AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73DB0A48-3105-426B-BA38-DAFE3AC17C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73DB0A48-3105-426B-BA38-DAFE3AC17C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73DB0A48-3105-426B-BA38-DAFE3AC17C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73DB0A48-3105-426B-BA38-DAFE3AC17C31}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8DCAFA51-D610-400B-92A2-EC4F42A8CC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8DCAFA51-D610-400B-92A2-EC4F42A8CC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DCAFA51-D610-400B-92A2-EC4F42A8CC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,17 +37,21 @@ Global
 		{4787C4DA-26DF-4E38-B347-1E0A68E59C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4787C4DA-26DF-4E38-B347-1E0A68E59C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4787C4DA-26DF-4E38-B347-1E0A68E59C02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E4F5E63-8E13-45AA-8142-7A21D8530054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E4F5E63-8E13-45AA-8142-7A21D8530054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E4F5E63-8E13-45AA-8142-7A21D8530054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E4F5E63-8E13-45AA-8142-7A21D8530054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0140F725-991B-45FC-8F62-BF555505E2AA} = {AF8849BF-2648-4D97-BD0A-20CEB0E37009}
-		{73DB0A48-3105-426B-BA38-DAFE3AC17C31} = {AF8849BF-2648-4D97-BD0A-20CEB0E37009}
 		{63DEBEF6-B5BB-4454-B495-602E13EE8C7A} = {F19AF011-0C6B-4C66-9A91-4B3BEC04739A}
 		{8DCAFA51-D610-400B-92A2-EC4F42A8CC82} = {63DEBEF6-B5BB-4454-B495-602E13EE8C7A}
 		{8EFF5E82-5315-4465-A395-494D692346CF} = {F19AF011-0C6B-4C66-9A91-4B3BEC04739A}
 		{4787C4DA-26DF-4E38-B347-1E0A68E59C02} = {8EFF5E82-5315-4465-A395-494D692346CF}
+		{5E4F5E63-8E13-45AA-8142-7A21D8530054} = {AF8849BF-2648-4D97-BD0A-20CEB0E37009}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F29DA60E-A5FA-493A-B758-526C4A3F2FFC}
