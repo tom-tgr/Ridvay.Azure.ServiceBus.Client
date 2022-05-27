@@ -2,26 +2,28 @@ using System;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
+using Microsoft.Extensions.Options;
 using Ridvay.Azure.ServiceBus.Client.Helpers;
 
 namespace Ridvay.Azure.ServiceBus.Client
 {
     internal class ServiceBusClientManager : IServiceBusClientManager, IAsyncDisposable
     {
-        private readonly ServiceBusSettings _values;
+        private readonly ServiceBusSettings _settings;
         private readonly IServiceBusAdministrator _busAdministrator;
         private ServiceBusClient _client;
 
-        public ServiceBusClientManager(ServiceBusSettings settings, IServiceBusAdministrator busAdministrator)
+        public ServiceBusClientManager(IOptions<ServiceBusSettings> settings, IServiceBusAdministrator busAdministrator)
         {
-            _values = settings;
+            _settings = settings.Value;
             _busAdministrator = busAdministrator;
             CreateNewClient();
         }
 
         private void CreateNewClient()
         {
-            _client = new ServiceBusClient(_values.ConnectionString, _values.ClientOptions ?? new ServiceBusClientOptions());
+            _client = new ServiceBusClient(_settings.ConnectionString,
+                _settings.ClientOptions ?? new ServiceBusClientOptions());
         }
 
         public IServiceBusSenderWrapped CreateSender(string queueOrTopicName)

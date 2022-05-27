@@ -2,7 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus.Administration;
-using Microsoft.VisualBasic;
+using Microsoft.Extensions.Options;
 
 namespace Ridvay.Azure.ServiceBus.Client
 {
@@ -12,7 +12,6 @@ namespace Ridvay.Azure.ServiceBus.Client
         Task CreateQueueIfNotExistAsync(string queueName);
         Task CreateQueueIfNotExistAsync(CreateQueueOptions options);
         Task CreateTopicOrQueueIfNotExistsAsync<T>();
-
         Task TryRemoveTopicOrQueueAsync<T>();
     }
 
@@ -22,13 +21,13 @@ namespace Ridvay.Azure.ServiceBus.Client
         private readonly ServiceBusAdministrationClient _client;
 
         public ServiceBusAdministrator(
-            ServiceBusSettings settings, 
+            IOptions<ServiceBusSettings> settings, 
             IConsumerAttributeParserService attributeParserService)
         {
             _attributeParserService = attributeParserService;
-            _client = new ServiceBusAdministrationClient(settings.ConnectionString);
+            _client = new ServiceBusAdministrationClient(settings.Value.ConnectionString);
 
-            queueExistsStore = new ConcurrentDictionary<string, DateTime>();
+            _queueExistsStore = new ConcurrentDictionary<string, DateTime>();
         }
 
 
@@ -82,16 +81,16 @@ namespace Ridvay.Azure.ServiceBus.Client
         }
 
 
-        private static ConcurrentDictionary<string, DateTime> queueExistsStore;
+        private static ConcurrentDictionary<string, DateTime> _queueExistsStore;
         
         private async Task<bool> MemoizedQueueExists(string name)
         {
-            if (queueExistsStore.ContainsKey(name)) return true;
+            if (_queueExistsStore.ContainsKey(name)) return true;
 
             if (!await _client.QueueExistsAsync(name)) return false;
 
 
-            queueExistsStore.TryAdd(name, DateTime.Now);
+            _queueExistsStore.TryAdd(name, DateTime.Now);
             return true;
 
 
