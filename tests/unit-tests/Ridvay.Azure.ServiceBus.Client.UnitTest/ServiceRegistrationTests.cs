@@ -15,7 +15,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Register_Default_Implementations()
         {
             var serviceProvider = new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .BuildServiceProvider();
             
             serviceProvider.GetRequiredService<IMessageSender>();
@@ -30,7 +30,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Register_Custom_Message_Serializer()
         {
             var serviceProvider = new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .AddTransient<IMessageSerialize, CustomMessageSerialize>()
                 .BuildServiceProvider();
 
@@ -44,7 +44,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Register_Message_Sender()
         {
             var serviceProvider = new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .BuildServiceProvider();
 
 
@@ -57,7 +57,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Register_RequestReplay_Consumer()
         {
             var serviceProvider = new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .AddConsumer<MessageConsumerRequestReplayStub>()
                 .BuildServiceProvider();
 
@@ -72,7 +72,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Throw_On_Same_RequestReplay_Consumer()
         {
             Assert.Throws<ArgumentException>(() => new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .AddConsumer<MessageConsumerRequestReplayStub>()
                 .AddConsumer<MessageConsumerRequestReplayStub>()
                 .BuildServiceProvider());
@@ -83,7 +83,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Throw_On_Same_RequestReplay_Consumer_Implementation()
         {
             Assert.Throws<ArgumentException>(() => new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .AddConsumer<MessageConsumerRequestReplayStub>()
                 .AddConsumer<MessageConsumerRequestReplay_SameImplementationStub>()
                 .BuildServiceProvider());
@@ -95,7 +95,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Register_One_Class_With_Multiple_RequestReplay_Consumer()
         {
             var serviceProvider = new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .AddConsumer<MessageConsumerRequestReplayMultipleConsumersStub>()
                 .BuildServiceProvider();
 
@@ -114,7 +114,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         public void Should_Register_Void_Consumer()
         {
             var serviceProvider = new ServiceCollection()
-                .AddServiceBus(ConnectionStringDummyValue)
+                .AddServiceBusClient(ConnectionStringDummyValue)
                 .AddConsumer<MessageConsumerVoidStub>()
                 .BuildServiceProvider();
 
@@ -131,7 +131,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         {
             Assert.Throws<ArgumentException>(() =>
                 new ServiceCollection()
-                    .AddServiceBus(ConnectionStringDummyValue)
+                    .AddServiceBusClient(ConnectionStringDummyValue)
                     .AddConsumer<MessageConsumerVoidStub>()
                     .AddConsumer<MessageConsumerVoidStub>()
                     .BuildServiceProvider());
@@ -142,7 +142,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         {
             Assert.Throws<ArgumentException>(() =>
                 new ServiceCollection()
-                    .AddServiceBus(ConnectionStringDummyValue)
+                    .AddServiceBusClient(ConnectionStringDummyValue)
                     .AddConsumer<MessageConsumerVoidStub>()
                     .AddConsumer<MessageConsumerVoidStub_SameImplementationStub>()
                     .BuildServiceProvider());
@@ -153,7 +153,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         {
             Assert.Throws<ArgumentException>(() =>
                 new ServiceCollection()
-                    .AddServiceBus(ConnectionStringDummyValue)
+                    .AddServiceBusClient(ConnectionStringDummyValue)
                     .AddConsumer<MessageConsumerRequestReplayStub>()
                     .AddConsumer<MessageConsumerVoidStub>()
                     .BuildServiceProvider());
@@ -164,7 +164,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         {
             Assert.Throws<ArgumentException>(() =>
                 new ServiceCollection()
-                    .AddServiceBus(ConnectionStringDummyValue)
+                    .AddServiceBusClient(ConnectionStringDummyValue)
                     .AddConsumer<MessageConsumerVoidStub>()
                     .AddConsumer<MessageConsumerRequestReplayStub>()
                     .BuildServiceProvider());
@@ -175,7 +175,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
         {
             Assert.Throws<ArgumentException>(() =>
                 new ServiceCollection()
-                    .AddServiceBus(ConnectionStringDummyValue)
+                    .AddServiceBusClient(ConnectionStringDummyValue)
                     .AddConsumer<MessageConsumerWithIMessageConsumerStub>()
                     .BuildServiceProvider());
         }

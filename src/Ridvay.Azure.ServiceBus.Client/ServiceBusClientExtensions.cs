@@ -10,12 +10,12 @@ namespace Ridvay.Azure.ServiceBus.Client
 {
     public static class ServiceBusClientExtensions
     {
-        public static ServiceBusClientBuilder AddServiceBus(this IServiceCollection services, string connectionsString)
+        public static ServiceBusClientBuilder AddServiceBusClient(this IServiceCollection services, string connectionsString)
         {
-            return services.AddServiceBus(new ServiceBusSettings() { ConnectionString = connectionsString });
+            return services.AddServiceBusClient(new ServiceBusSettings() { ConnectionString = connectionsString });
         }
 
-        public static ServiceBusClientBuilder AddServiceBus(this IServiceCollection services, ServiceBusSettings settings)
+        public static ServiceBusClientBuilder AddServiceBusClient(this IServiceCollection services, ServiceBusSettings settings)
         {
             services.AddSingleton(settings);
             services.AddSingleton<IMessageSender, MessageSender>();

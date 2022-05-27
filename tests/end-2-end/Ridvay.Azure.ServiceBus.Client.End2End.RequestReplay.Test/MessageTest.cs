@@ -31,7 +31,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
                 .ConfigureServices((hostContext, services) =>
                 {
                     services
-                        .AddServiceBus(Environment.GetEnvironmentVariable("ServiceBusConnection", EnvironmentVariableTarget.User))
+                        .AddServiceBusClient(Environment.GetEnvironmentVariable("ServiceBusConnection", EnvironmentVariableTarget.User))
                         .AddConsumer<MessageTest>();
                     _services = services.BuildServiceProvider();
                 }).Build();
