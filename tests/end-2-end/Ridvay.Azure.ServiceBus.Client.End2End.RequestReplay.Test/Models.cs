@@ -56,7 +56,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         IMessageConsumer<MessageConcurrent50Prefetch100, BasicMessageResponse>, 
         IMessageConsumer<MessageDefault, BasicMessageResponse>
     {
-        public Task<BasicMessageResponse> OnMessageAsync(IMessageResponse<MessageConcurrent50Prefetch100> response)
+        public Task<BasicMessageResponse> ConsumeAsync(IMessageResponse<MessageConcurrent50Prefetch100> response)
         {
             var data = response.Message;
 
@@ -64,7 +64,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
             return Task.FromResult(new BasicMessageResponse { ReturnValue = "OK: "+ data.TestString });
         }
 
-        public Task<BasicMessageResponse> OnMessageAsync(IMessageResponse<MessageDefault> message)
+        public Task<BasicMessageResponse> ConsumeAsync(IMessageResponse<MessageDefault> message)
         {
             var data = message.Message;
 

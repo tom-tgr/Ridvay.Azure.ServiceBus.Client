@@ -32,7 +32,7 @@ namespace Ridvay.Azure.ServiceBus.Client
         {
             var value = _messageSerialize.Deserialize<T>(args.Message.Body.ToString());
             var retValue = new MessageResponse<T>(value, args);
-            await _consumer.OnMessageAsync(retValue);
+            await _consumer.ConsumeAsync(retValue);
         }
     }
 }

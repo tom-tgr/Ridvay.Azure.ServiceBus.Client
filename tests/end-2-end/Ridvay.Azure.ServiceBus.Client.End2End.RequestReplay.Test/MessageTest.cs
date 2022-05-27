@@ -107,7 +107,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         /// <summary>
         /// Message Handler
         /// </summary>
-        public Task OnMessageAsync(IMessageResponse<MessageDefault> message)
+        public Task ConsumeAsync(IMessageResponse<MessageDefault> message)
         {
             _receivedMessage = message;
             _messageLock.Release();

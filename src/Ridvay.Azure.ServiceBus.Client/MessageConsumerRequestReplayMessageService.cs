@@ -36,7 +36,7 @@ namespace Ridvay.Azure.ServiceBus.Client
         {
             var value = _messageSerialize.Deserialize<T>(args.Message.Body.ToString());
             var retValue = new MessageResponse<T>(value, args);
-            var replay  = await _consumer.OnMessageAsync(retValue);
+            var replay  = await _consumer.ConsumeAsync(retValue);
 
 
             var replayQName = _attributeParser.GetReplayQueueName<T>();
