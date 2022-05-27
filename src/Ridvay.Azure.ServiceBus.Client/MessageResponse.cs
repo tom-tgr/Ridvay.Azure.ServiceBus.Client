@@ -7,13 +7,13 @@ using Ridvay.Azure.ServiceBus.Client.Abstractions;
 
 namespace Ridvay.Azure.ServiceBus.Client
 {
-    public class MessageResponse<T> : IMessageResponse<T>, IMessageDetails
+    public class MessageContext<T> : IMessageContext<T>, IMessageDetails
 
     {
         private readonly ProcessMessageEventArgs _processMessageEventArgs;
 
 
-        public MessageResponse(T message, ProcessMessageEventArgs  processMessageEventArgs)
+        public MessageContext(T message, ProcessMessageEventArgs  processMessageEventArgs)
         {
             _processMessageEventArgs = processMessageEventArgs;
             Message = message;

@@ -35,7 +35,7 @@ namespace Ridvay.Azure.ServiceBus.Client
         protected override async Task ProcessMessage(ProcessMessageEventArgs args)
         {
             var value = _messageSerialize.Deserialize<T>(args.Message.Body.ToString());
-            var retValue = new MessageResponse<T>(value, args);
+            var retValue = new MessageContext<T>(value, args);
             var replay  = await _consumer.ConsumeAsync(retValue);
 
 

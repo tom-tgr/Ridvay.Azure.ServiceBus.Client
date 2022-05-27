@@ -53,7 +53,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         }
 
 
-        private static IMessageResponse<MessageDefault> _receivedMessage;
+        private static IMessageContext<MessageDefault> _receivedMessage;
         private static SemaphoreSlim _messageLock;
 
         [Test]
@@ -107,7 +107,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         /// <summary>
         /// Message Handler
         /// </summary>
-        public Task ConsumeAsync(IMessageResponse<MessageDefault> message)
+        public Task ConsumeAsync(IMessageContext<MessageDefault> message)
         {
             _receivedMessage = message;
             _messageLock.Release();

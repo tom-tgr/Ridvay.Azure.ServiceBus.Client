@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Ridvay.Azure.ServiceBus.Client.Abstractions
 {
-    public interface IMessageResponse<T>
+    public interface IMessageContext<T>
     {
         /// <summary>
         /// The message

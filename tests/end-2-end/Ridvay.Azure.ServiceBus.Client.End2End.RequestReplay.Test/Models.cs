@@ -19,15 +19,11 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             while (true)
-
-
             {
                 var a = await _sender.GetAsync<MessageConcurrent50Prefetch100, BasicMessageResponse>(
                     new MessageConcurrent50Prefetch100() { TestString = Guid.NewGuid().ToString() });
                 Thread.Sleep(1000 * 60);
             }
-
-            
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
@@ -56,15 +52,15 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         IMessageConsumer<MessageConcurrent50Prefetch100, BasicMessageResponse>, 
         IMessageConsumer<MessageDefault, BasicMessageResponse>
     {
-        public Task<BasicMessageResponse> ConsumeAsync(IMessageResponse<MessageConcurrent50Prefetch100> response)
+        public Task<BasicMessageResponse> ConsumeAsync(IMessageContext<MessageConcurrent50Prefetch100> context)
         {
-            var data = response.Message;
+            var data = context.Message;
 
 
             return Task.FromResult(new BasicMessageResponse { ReturnValue = "OK: "+ data.TestString });
         }
 
-        public Task<BasicMessageResponse> ConsumeAsync(IMessageResponse<MessageDefault> message)
+        public Task<BasicMessageResponse> ConsumeAsync(IMessageContext<MessageDefault> message)
         {
             var data = message.Message;
 
