@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AsyncKeyedLock;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +21,11 @@ namespace Ridvay.Azure.ServiceBus.Client
         public static ServiceBusClientBuilder AddServiceBusClient(this IServiceCollection services, Action<ServiceBusSettings> settings = null)
         {
             services.Configure(settings);
+            services.AddSingleton(new AsyncKeyedLocker<string>(o =>
+            {
+                o.PoolSize = 20;
+                o.PoolInitialFill = 1;
+            }));
             services.AddSingleton<IMessageSender, MessageSender>();
             services.AddSingleton<IServiceBusAdministrator, ServiceBusAdministrator>();
             services.AddTransient<IServiceBusClientManager, ServiceBusClientManager>();
