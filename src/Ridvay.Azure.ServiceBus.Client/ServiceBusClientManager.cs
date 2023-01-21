@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using AsyncKeyedLock;
 using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
 using Microsoft.Extensions.Options;
@@ -11,12 +12,14 @@ namespace Ridvay.Azure.ServiceBus.Client
     {
         private readonly ServiceBusSettings _settings;
         private readonly IServiceBusAdministrator _busAdministrator;
+        private readonly AsyncKeyedLocker<string> _asyncKeyedLocker;
         private ServiceBusClient _client;
 
-        public ServiceBusClientManager(IOptions<ServiceBusSettings> settings, IServiceBusAdministrator busAdministrator)
+        public ServiceBusClientManager(IOptions<ServiceBusSettings> settings, IServiceBusAdministrator busAdministrator, AsyncKeyedLocker<string> asyncKeyedLocker)
         {
             _settings = settings.Value;
             _busAdministrator = busAdministrator;
+            _asyncKeyedLocker = asyncKeyedLocker;
             CreateNewClient();
         }
 
@@ -30,7 +33,7 @@ namespace Ridvay.Azure.ServiceBus.Client
         {
             var sender = _client.CreateSender(queueOrTopicName);
 
-            return new ServiceBusSenderWrapped(sender, _busAdministrator);
+            return new ServiceBusSenderWrapped(sender, _busAdministrator, _asyncKeyedLocker);
         }
 
         public ServiceBusProcessor CreateProcessor(string name, ServiceBusProcessorOptions options)
@@ -52,7 +55,7 @@ namespace Ridvay.Azure.ServiceBus.Client
             catch (ServiceBusException ex) when
                 (ex.Reason == ServiceBusFailureReason.MessagingEntityNotFound)
             {
-                await using (await AwaitLock.Create(nameof(_busAdministrator.CreateQueueIfNotExistAsync)))
+                using (await _asyncKeyedLocker.LockAsync(nameof(_busAdministrator.CreateQueueIfNotExistAsync)).ConfigureAwait(false))
                 {
                     await _busAdministrator.CreateQueueIfNotExistAsync(new CreateQueueOptions(queueName)
                         {
