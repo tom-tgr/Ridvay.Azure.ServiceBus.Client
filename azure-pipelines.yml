@@ -15,18 +15,19 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
-    restoreSolution: '$(solution)'
+    command: 'restore'
+    feedsToUse: 'select'
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:OutDir="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    includesymbols: true
+    includesource: true
+    versioningScheme: 'off'
 
 - task: PublishBuildArtifacts@1
   inputs:

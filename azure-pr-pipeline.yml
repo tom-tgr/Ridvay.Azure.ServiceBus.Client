@@ -5,6 +5,7 @@
 
 pr:
 - releases/*
+- main
 
 pool:
   vmImage: 'windows-latest'
