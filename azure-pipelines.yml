@@ -13,7 +13,8 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  buildVersion: '$(Build.SourceBranchName).$(Build.TriggeredBy.BuildId)'
+
+name: $(Build.SourceBranchName).$(Rev:rr)
 
 steps:
 
@@ -24,17 +25,13 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
-
-- task: DotNetCoreCLI@2
-  inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
     nobuild: true
     includesymbols: true
     includesource: true
     versioningScheme: 'off'
-    buildProperties: 'version=$(buildVersion);SolutionDir=$(Build.SourcesDirectory)\;'
+    buildProperties: 'version=$(Build.SourceBranchName).$(Rev:rr);SolutionDir=$(Build.SourcesDirectory)\;'
 
 - task: PublishBuildArtifacts@1
   inputs:
