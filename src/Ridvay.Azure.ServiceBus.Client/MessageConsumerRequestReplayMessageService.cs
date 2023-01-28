@@ -4,13 +4,12 @@ using Ridvay.Azure.ServiceBus.Client.Abstractions;
 
 namespace Ridvay.Azure.ServiceBus.Client
 {
-    internal class MessageConsumerRequestReplayMessageService<T,TReplay> : MessageConsumerServiceBase 
+    internal class MessageConsumerRequestReplayMessageService<T, TReplay> : MessageConsumerServiceBase
         where T : class
         where TReplay : class
     {
-        private readonly IMessageConsumer<T,TReplay> _consumer;
-        private readonly IServiceBusAdministrator _busAdministrator;
         private readonly IConsumerAttributeParserService _attributeParser;
+        private readonly IMessageConsumer<T, TReplay> _consumer;
         private readonly IMessageSerialize _messageSerialize;
 
 
@@ -20,7 +19,6 @@ namespace Ridvay.Azure.ServiceBus.Client
             IMessageSerialize messageSerialize) : base(clientFactory, busAdministrator)
         {
             _consumer = consumer;
-            _busAdministrator = busAdministrator;
             _attributeParser = attributeParser;
             _messageSerialize = messageSerialize;
         }
@@ -36,7 +34,7 @@ namespace Ridvay.Azure.ServiceBus.Client
         {
             var value = _messageSerialize.Deserialize<T>(args.Message.Body.ToString());
             var retValue = new MessageContext<T>(value, args);
-            var replay  = await _consumer.ConsumeAsync(retValue);
+            var replay = await _consumer.ConsumeAsync(retValue);
 
 
             var replayQName = _attributeParser.GetReplayQueueName<T>();

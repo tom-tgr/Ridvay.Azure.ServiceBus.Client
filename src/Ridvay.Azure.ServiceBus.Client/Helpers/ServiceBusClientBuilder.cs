@@ -50,6 +50,7 @@ namespace Ridvay.Azure.ServiceBus.Client.Helpers
 
         public int Count => _services.Count;
         public bool IsReadOnly => _services.IsReadOnly;
+
         public int IndexOf(ServiceDescriptor item)
         {
             return _services.IndexOf(item);
@@ -57,7 +58,7 @@ namespace Ridvay.Azure.ServiceBus.Client.Helpers
 
         public void Insert(int index, ServiceDescriptor item)
         {
-            _services.Insert(index,item);
+            _services.Insert(index, item);
         }
 
         public void RemoveAt(int index)
@@ -68,7 +69,7 @@ namespace Ridvay.Azure.ServiceBus.Client.Helpers
         public ServiceDescriptor this[int index]
         {
             get => _services[index];
-            set => _services[index]=value;
+            set => _services[index] = value;
         }
     }
 }

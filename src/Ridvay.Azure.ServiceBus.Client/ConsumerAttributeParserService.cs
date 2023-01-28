@@ -4,6 +4,7 @@ using Azure.Messaging.ServiceBus;
 using Ridvay.Azure.ServiceBus.Client.Abstractions;
 using AzureServiceBusReceiveMode = Azure.Messaging.ServiceBus.ServiceBusReceiveMode;
 using AzureSubQueue = Azure.Messaging.ServiceBus.SubQueue;
+
 namespace Ridvay.Azure.ServiceBus.Client
 {
     public interface IConsumerAttributeParserService
@@ -40,8 +41,10 @@ namespace Ridvay.Azure.ServiceBus.Client
                     SubQueue = subQueue
                 };
             }
+
             return retValue;
         }
+
         public bool IsTopicProcessor<T>()
         {
             return typeof(T)
@@ -77,16 +80,14 @@ namespace Ridvay.Azure.ServiceBus.Client
 
         public string GetTopicOrQueueName<T>()
         {
-          var result =  IsTopicProcessor<T>() ?
-                GetTopicConsumerAttribute<T>()?.TopicName :
-                GetQueueConsumerAttribute<T>()?.QueueName;
+            var result = IsTopicProcessor<T>() ? GetTopicConsumerAttribute<T>()?.TopicName : GetQueueConsumerAttribute<T>()?.QueueName;
 
-          return result ?? $"{typeof(T).Namespace}.{typeof(T).Name}";
+            return result ?? $"{typeof(T).Namespace}.{typeof(T).Name}";
         }
 
         public string GetReplayQueueName<T>()
         {
-            return  GetTopicOrQueueName<T>() + "____Replay";
+            return GetTopicOrQueueName<T>() + "____Replay";
         }
     }
 }

@@ -14,29 +14,28 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
 {
     public class MessageRequestReplayTest
     {
-        private ServiceProvider _services;
-
-        private readonly object _lock =new object();
-        private IHost _host;
+        private readonly object _lock = new();
         private CancellationTokenSource _cancellationTokenSource;
+        private IHost _host;
+        private ServiceProvider _services;
 
         [SetUp]
         public async Task Setup()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            
 
-            _host = Host.CreateDefaultBuilder(new string[]{})
+
+            _host = Host.CreateDefaultBuilder(new string[] { })
                 .ConfigureLogging(builder =>
                     builder.SetMinimumLevel(LogLevel.Warning))
-                .ConfigureServices((hostContext, services) =>
+                .ConfigureServices((_, services) =>
                 {
                     services
                         .AddServiceBusClient(Environment.GetEnvironmentVariable("ServiceBusConnection", EnvironmentVariableTarget.User))
                         .AddConsumer<RequestReplayConsumer>();
                     _services = services.BuildServiceProvider();
                 }).Build();
-               
+
             await _host.StartAsync(_cancellationTokenSource.Token);
         }
 
@@ -50,18 +49,17 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
 
             var lf = _services.GetRequiredService<IHostApplicationLifetime>();
             lf.StopApplication();
-            
         }
 
         [Test]
         public async Task Massage_Should_Return_Value()
         {
             var sender = _services.GetService<IMessageSender>();
-            var stringValue = Guid.NewGuid().ToString(); 
-            
-            var a = await sender.GetAsync<MessageDefault, BasicMessageResponse>(new MessageDefault() { TestString = stringValue });
+            var stringValue = Guid.NewGuid().ToString();
 
-            Assert.AreEqual("OK: "+ stringValue, a.ReturnValue);
+            var a = await sender.GetAsync<MessageDefault, BasicMessageResponse>(new MessageDefault { TestString = stringValue });
+
+            Assert.AreEqual("OK: " + stringValue, a.ReturnValue);
         }
 
         [Test]
@@ -70,14 +68,16 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
             var sender = _services.GetService<IMessageSender>();
 
             var results = new List<BasicMessageResponse>();
-        
+
             var tasks = Enumerable.Range(0, 100)
                 .Select(i => Task.Run(async () =>
                 {
-                    var a = await sender.GetAsync<MessageConcurrent50Prefetch100, BasicMessageResponse>(new MessageConcurrent50Prefetch100() { TestString = i.ToString() });
+                    var a = await sender.GetAsync<MessageConcurrent50Prefetch100, BasicMessageResponse>(new MessageConcurrent50Prefetch100 { TestString = i.ToString() });
 
-                    lock(_lock) 
+                    lock (_lock)
+                    {
                         results.Add(a);
+                    }
 
                     Assert.AreEqual("OK: " + i, a.ReturnValue);
                 }))
@@ -85,9 +85,8 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
 
             await Task.WhenAll(tasks);
 
-            
-            Assert.AreEqual(100, results.Count);
 
+            Assert.AreEqual(100, results.Count);
         }
     }
 }

@@ -5,7 +5,8 @@ namespace Ridvay.Azure.ServiceBus.Client.Abstractions
     public interface IMessageConsumer
     {
     }
-    public interface IMessageConsumer<TRequest> : IMessageConsumer where TRequest : class 
+
+    public interface IMessageConsumer<TRequest> : IMessageConsumer where TRequest : class
     {
         public Task ConsumeAsync(IMessageContext<TRequest> message);
     }

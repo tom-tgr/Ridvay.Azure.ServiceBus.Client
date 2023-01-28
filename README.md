@@ -1,9 +1,11 @@
 # Ridvay.Azure.ServiceBus.Client
+
 Simple POCO/DTO driven Azure Service Bus client
 
 ## Install the package
 
 Install the Ridvay.Azure.ServiceBus.Client library for .NET with NuGet:
+
 ```bash
 dotnet add package Ridvay.Azure.ServiceBus.Client
 ```
@@ -26,10 +28,11 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ## Mesage Consumers Implemention
+
 #
 
+### Void message consumer
 
-###  Void message consumer
 ``` csharp
 
 public class MyMessageConsumer : IMessageConsumer<MyBasicMessage>
@@ -57,7 +60,9 @@ public class MyMessageConsumerWithReturn : IMessageConsumerWithReturn<MyMessage,
 ``` 
 
 ## Send Messages
+
 #
+
 ``` csharp
 using Ridvay.Azure.ServiceBus.Client;
 public class MyClass
@@ -89,6 +94,7 @@ public class MyClass
 ```
 
 ## Message configuration
+
 #
 
 ``` csharp  
@@ -127,4 +133,5 @@ public class MyMessageAutoComplete
 
 }
 ```
+
 ```

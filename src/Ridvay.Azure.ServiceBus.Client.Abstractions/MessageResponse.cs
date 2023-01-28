@@ -8,111 +8,111 @@ namespace Ridvay.Azure.ServiceBus.Client.Abstractions
     public interface IMessageContext<T>
     {
         /// <summary>
-        /// The message
+        ///     The message
         /// </summary>
         T Message { get; }
 
         /// <summary>
-        /// Message Details
+        ///     Message Details
         /// </summary>
         IMessageDetails MessageDetails { get; }
 
-        ///<inheritdoc cref="ServiceBusReceiver.AbandonMessageAsync(ServiceBusReceivedMessage, IDictionary{string, object}, CancellationToken)"/>
+        /// <inheritdoc cref="ServiceBusReceiver.AbandonMessageAsync(ServiceBusReceivedMessage, IDictionary{string, object}, CancellationToken)" />
         Task AbandonMessageAsync(IDictionary<string, object> propertiesToModify = default,
             CancellationToken cancellationToken = default);
 
-        ///<inheritdoc cref="ServiceBusReceiver.CompleteMessageAsync(ServiceBusReceivedMessage, CancellationToken)"/>
+        /// <inheritdoc cref="ServiceBusReceiver.CompleteMessageAsync(ServiceBusReceivedMessage, CancellationToken)" />
         Task CompleteMessageAsync(CancellationToken cancellationToken = default);
 
-        ///<inheritdoc cref="ServiceBusReceiver.DeadLetterMessageAsync(ServiceBusReceivedMessage, string, string, CancellationToken)"/>
+        /// <inheritdoc cref="ServiceBusReceiver.DeadLetterMessageAsync(ServiceBusReceivedMessage, string, string, CancellationToken)" />
         Task DeadLetterMessageAsync(string deadLetterReason,
             string deadLetterErrorDescription = default,
             CancellationToken cancellationToken = default);
 
-        ///<inheritdoc cref="ServiceBusReceiver.DeadLetterMessageAsync(ServiceBusReceivedMessage, IDictionary{string, object}, CancellationToken)"/>
+        /// <inheritdoc cref="ServiceBusReceiver.DeadLetterMessageAsync(ServiceBusReceivedMessage, IDictionary{string, object}, CancellationToken)" />
         Task DeadLetterMessageAsync(IDictionary<string, object> propertiesToModify = default,
             CancellationToken cancellationToken = default);
 
-        ///<inheritdoc cref="ServiceBusReceiver.DeferMessageAsync(ServiceBusReceivedMessage, IDictionary{string, object}, CancellationToken)"/>
+        /// <inheritdoc cref="ServiceBusReceiver.DeferMessageAsync(ServiceBusReceivedMessage, IDictionary{string, object}, CancellationToken)" />
         Task DeferMessageAsync(IDictionary<string, object> propertiesToModify = default,
             CancellationToken cancellationToken = default);
 
-        ///<inheritdoc cref="ServiceBusReceiver.RenewMessageLockAsync(ServiceBusReceivedMessage, CancellationToken)"/>
+        /// <inheritdoc cref="ServiceBusReceiver.RenewMessageLockAsync(ServiceBusReceivedMessage, CancellationToken)" />
         Task RenewMessageLockAsync(CancellationToken cancellationToken = default);
     }
 
     public interface IMessageDetails
     {
-        ///<inheritdoc cref="ServiceBusReceivedMessage.MessageId"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.MessageId" />
         string MessageId { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.PartitionKey"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.PartitionKey" />
         string PartitionKey { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.TransactionPartitionKey"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.TransactionPartitionKey" />
         string TransactionPartitionKey { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.SessionId"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.SessionId" />
         string SessionId { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.ReplyToSessionId"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.ReplyToSessionId" />
         string ReplyToSessionId { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.TimeToLive"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.TimeToLive" />
         TimeSpan TimeToLive { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.CorrelationId"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.CorrelationId" />
         string CorrelationId { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.Subject"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.Subject" />
         string Subject { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.To"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.To" />
         string To { get; }
 
-        ///<inheritdoc cref="System.Net.Mime.ContentType"/>
+        /// <inheritdoc cref="System.Net.Mime.ContentType" />
         string ContentType { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.ReplyTo"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.ReplyTo" />
         string ReplyTo { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.ScheduledEnqueueTime"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.ScheduledEnqueueTime" />
         DateTimeOffset ScheduledEnqueueTime { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.ApplicationProperties"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.ApplicationProperties" />
         IReadOnlyDictionary<string, object> ApplicationProperties { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.LockToken"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.LockToken" />
         string LockToken { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.DeliveryCount"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.DeliveryCount" />
         int DeliveryCount { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.LockedUntil"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.LockedUntil" />
         DateTimeOffset LockedUntil { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.SequenceNumber"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.SequenceNumber" />
         long SequenceNumber { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.DeadLetterSource"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.DeadLetterSource" />
         string DeadLetterSource { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.EnqueuedSequenceNumber"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.EnqueuedSequenceNumber" />
         long EnqueuedSequenceNumber { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.EnqueuedTime"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.EnqueuedTime" />
         DateTimeOffset EnqueuedTime { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.ExpiresAt"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.ExpiresAt" />
         DateTimeOffset ExpiresAt { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.DeadLetterReason"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.DeadLetterReason" />
         string DeadLetterReason { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.DeadLetterErrorDescription"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.DeadLetterErrorDescription" />
         string DeadLetterErrorDescription { get; }
 
-        ///<inheritdoc cref="ServiceBusReceivedMessage.State"/>
+        /// <inheritdoc cref="ServiceBusReceivedMessage.State" />
         string State { get; }
     }
 }

@@ -4,19 +4,18 @@ using Ridvay.Azure.ServiceBus.Client.Abstractions;
 
 namespace Ridvay.Azure.ServiceBus.Client
 {
-    internal class MessageConsumerVoidMessageService<T> : MessageConsumerServiceBase where T : class {
-        private readonly IMessageConsumer<T> _consumer;
-        private readonly IServiceBusAdministrator _busAdministrator;
+    internal class MessageConsumerVoidMessageService<T> : MessageConsumerServiceBase where T : class
+    {
         private readonly IConsumerAttributeParserService _attributeParser;
+        private readonly IMessageConsumer<T> _consumer;
         private readonly IMessageSerialize _messageSerialize;
 
         public MessageConsumerVoidMessageService(IMessageConsumer<T> consumer, IServiceBusClientManager clientFactory,
             IServiceBusAdministrator busAdministrator,
             IConsumerAttributeParserService attributeParser,
-            IMessageSerialize messageSerialize) :base(clientFactory, busAdministrator)
+            IMessageSerialize messageSerialize) : base(clientFactory, busAdministrator)
         {
             _consumer = consumer;
-            _busAdministrator = busAdministrator;
             _attributeParser = attributeParser;
             _messageSerialize = messageSerialize;
         }
@@ -27,7 +26,7 @@ namespace Ridvay.Azure.ServiceBus.Client
 
         protected override TopicConsumerAttribute TopicConsumerAttribute =>
             _attributeParser.GetTopicConsumerAttribute<T>();
-       
+
         protected override async Task ProcessMessage(ProcessMessageEventArgs args)
         {
             var value = _messageSerialize.Deserialize<T>(args.Message.Body.ToString());

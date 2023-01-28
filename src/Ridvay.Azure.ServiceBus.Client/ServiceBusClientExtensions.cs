@@ -13,8 +13,8 @@ namespace Ridvay.Azure.ServiceBus.Client
     {
         public static ServiceBusClientBuilder AddServiceBusClient(this IServiceCollection services, string connectionsString)
         {
-            return services.AddServiceBusClient(a=>
-                a.ConnectionString = connectionsString 
+            return services.AddServiceBusClient(a =>
+                a.ConnectionString = connectionsString
             );
         }
 
@@ -33,14 +33,15 @@ namespace Ridvay.Azure.ServiceBus.Client
             services.AddTransient<IMessageSerialize, MessageSerialize>();
             return new ServiceBusClientBuilder(services);
         }
+
         /// <summary>
-        /// Add Message consumer
+        ///     Add Message consumer
         /// </summary>
-        /// <typeparam name="TImplementation">Should implement IMessageConsumer<> or IMessageConsumer<,></typeparam>
+        /// <typeparam name="TImplementation">
+        ///     Should implement IMessageConsumer<> or IMessageConsumer<,></typeparam>
         public static ServiceBusClientBuilder AddConsumer<TImplementation>(this ServiceBusClientBuilder services)
             where TImplementation : IMessageConsumer
         {
-
             ValidateConsumerRegistration<TImplementation>(services);
 
             RegisterRequestReplayTypes<TImplementation>(services);
@@ -59,27 +60,25 @@ namespace Ridvay.Azure.ServiceBus.Client
 
             if (!items.Any())
                 throw new ArgumentException($"Consumer `{typeof(TImplementation).FullName}` should implement IMessageConsumer<> or IMessageConsumer<,>");
-            
+
             items.ForEach(type =>
+            {
+                var args = type.GetGenericArguments();
+                var messageType = args[0];
+
+                var b = services.Where(a =>
+                        a.ImplementationType != null &&
+                        a.ServiceType == typeof(IHostedService) &&
+                        a.ImplementationType.IsAssignableTo(typeof(MessageConsumerServiceBase)))
+                    .Select(a => a.ImplementationType).ToList();
+
+                b.ForEach(a =>
                 {
-                    var args = type.GetGenericArguments();
-                    var messageType = args[0];
-
-                    var b = services.Where(a =>
-                            a.ImplementationType != null &&
-                            a.ServiceType == typeof(IHostedService) &&
-                            a.ImplementationType.IsAssignableTo(typeof(MessageConsumerServiceBase)))
-                        .Select(a => a.ImplementationType).ToList();
-
-                    b.ForEach(a =>
-                    {
-                        if (a.GetGenericArguments().First() == messageType)
-                        {
-                            throw new ArgumentException(
-                                $"Message type `{messageType.FullName}` already registered in other consumer");
-                        }
-                    });
+                    if (a.GetGenericArguments().First() == messageType)
+                        throw new ArgumentException(
+                            $"Message type `{messageType.FullName}` already registered in other consumer");
                 });
+            });
         }
 
         private static void RegisterVoidTypes<TImplementation>(ServiceBusClientBuilder services)
@@ -93,7 +92,7 @@ namespace Ridvay.Azure.ServiceBus.Client
                     var args = type.GetGenericArguments();
                     var typeToMake = typeof(MessageConsumerVoidMessageService<>);
                     var constructedConsumer = typeToMake.MakeGenericType(args);
-                    
+
                     services.TryAddEnumerable(ServiceDescriptor.Singleton(typeof(IHostedService), constructedConsumer));
                     services.TryAddTransient(type, typeof(TImplementation));
                 });
@@ -110,7 +109,7 @@ namespace Ridvay.Azure.ServiceBus.Client
                     var args = type.GetGenericArguments();
                     var typeToMake = typeof(MessageConsumerRequestReplayMessageService<,>);
                     var constructedConsumer = typeToMake.MakeGenericType(args);
-                    
+
                     services.TryAddEnumerable(ServiceDescriptor.Singleton(typeof(IHostedService), constructedConsumer));
                     services.TryAddTransient(type, typeof(TImplementation));
                 });

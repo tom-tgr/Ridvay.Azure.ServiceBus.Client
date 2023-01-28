@@ -11,5 +11,4 @@ namespace Ridvay.Azure.ServiceBus.Client
         ServiceBusProcessor CreateProcessor(string name, string subscriptionName, ServiceBusProcessorOptions options);
         Task<ServiceBusSessionReceiver> ReplayToQueue(string queueName, string sessionId);
     }
-
 }

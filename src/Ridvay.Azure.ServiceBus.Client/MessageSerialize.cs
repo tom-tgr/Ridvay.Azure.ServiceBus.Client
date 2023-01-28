@@ -12,7 +12,7 @@ namespace Ridvay.Azure.ServiceBus.Client
     {
         public string Serialize<T>(T obj)
         {
-            return JsonSerializer.Serialize<T>(obj);
+            return JsonSerializer.Serialize(obj);
         }
 
         public T Deserialize<T>(string obj)

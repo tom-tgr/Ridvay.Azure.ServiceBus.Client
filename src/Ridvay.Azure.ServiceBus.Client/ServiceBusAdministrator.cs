@@ -17,11 +17,12 @@ namespace Ridvay.Azure.ServiceBus.Client
 
     internal class ServiceBusAdministrator : IServiceBusAdministrator
     {
+        private static ConcurrentDictionary<string, DateTime> _queueExistsStore;
         private readonly IConsumerAttributeParserService _attributeParserService;
         private readonly ServiceBusAdministrationClient _client;
 
         public ServiceBusAdministrator(
-            IOptions<ServiceBusSettings> settings, 
+            IOptions<ServiceBusSettings> settings,
             IConsumerAttributeParserService attributeParserService)
         {
             _attributeParserService = attributeParserService;
@@ -34,17 +35,17 @@ namespace Ridvay.Azure.ServiceBus.Client
         public async Task CreateTopicOrQueueIfNotExistsAsync<T>()
         {
             var name = _attributeParserService.GetTopicOrQueueName<T>();
-                if (_attributeParserService.IsTopicProcessor<T>())
-                    await CreateTopicIfNotExistsAsync(name);
+            if (_attributeParserService.IsTopicProcessor<T>())
+                await CreateTopicIfNotExistsAsync(name);
 
-                else
-                    await CreateQueueIfNotExistAsync(name);
+            else
+                await CreateQueueIfNotExistAsync(name);
         }
+
         public async Task CreateQueueIfNotExistAsync(CreateQueueOptions options)
         {
             if (!await MemoizedQueueExists(options.Name))
                 await _client.CreateQueueAsync(options);
-
         }
 
         public async Task CreateQueueIfNotExistAsync(string topic)
@@ -56,7 +57,6 @@ namespace Ridvay.Azure.ServiceBus.Client
         {
             if (!await _client.TopicExistsAsync(queueName))
                 await _client.CreateTopicAsync(queueName);
-
         }
 
         public async Task TryRemoveTopicOrQueueAsync<T>()
@@ -66,13 +66,9 @@ namespace Ridvay.Azure.ServiceBus.Client
                 var name = _attributeParserService.GetTopicOrQueueName<T>();
 
                 if (_attributeParserService.IsTopicProcessor<T>())
-                {
                     await _client.DeleteTopicAsync(name);
-                }
                 else
-                {
                     await _client.DeleteQueueAsync(name);
-                }
             }
             catch
             {
@@ -80,9 +76,6 @@ namespace Ridvay.Azure.ServiceBus.Client
             }
         }
 
-
-        private static ConcurrentDictionary<string, DateTime> _queueExistsStore;
-        
         private async Task<bool> MemoizedQueueExists(string name)
         {
             if (_queueExistsStore.ContainsKey(name)) return true;
@@ -92,8 +85,6 @@ namespace Ridvay.Azure.ServiceBus.Client
 
             _queueExistsStore.TryAdd(name, DateTime.Now);
             return true;
-
-
         }
     }
 }
