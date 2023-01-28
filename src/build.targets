@@ -3,8 +3,15 @@
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <AssemblyFileVersion>$(Version)</AssemblyFileVersion >
 	</PropertyGroup>
-
+  
+  <PropertyGroup Condition=" '$(Version)' == '' ">
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.1</AssemblyFileVersion>
+  </PropertyGroup>
+  
 	<PropertyGroup>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
