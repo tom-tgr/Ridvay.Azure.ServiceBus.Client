@@ -31,10 +31,11 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      **\*test*.dll
+      !**\*End2End.Test.dll
+      **\*Tests.dll
       !**\*TestAdapter.dll
       !**\obj\**
-      !**\*End2End.Test.dll
     searchFolder: '$(System.DefaultWorkingDirectory)'
+    codeCoverageEnabled: true
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
