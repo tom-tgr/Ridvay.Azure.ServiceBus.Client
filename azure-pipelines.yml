@@ -31,8 +31,9 @@ steps:
   inputs:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
-      !**\*End2End.Test.dll
+      **\*Test.dll
       **\*Tests.dll
+      !**\*End2End.Test.dll
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
