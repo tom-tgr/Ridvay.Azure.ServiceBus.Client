@@ -35,6 +35,10 @@ steps:
 #     includesource: true
 #     versioningScheme: 'off'
 #     buildProperties: 'version=$(Build.BuildNumber);SolutionDir=$(Build.SourcesDirectory)\;'
+- task: CopyFiles@2
+  inputs:
+    Contents: '**/*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
   inputs:
