@@ -3,10 +3,9 @@
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
-trigger:
-  branches:
-      include:
-      - releases/*
+pr:
+- main
+- releases/*
 
 pool:
   vmImage: 'windows-latest'
@@ -17,6 +16,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud Ridvay Public'
+    organization: 'ridvay'
+    scannerMode: 'MSBuild'
+    projectKey: 'ridvay_ridvay-azure-servicebus-client'
+    projectName: 'Ridvay.Azure.ServiceBus.Client'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -26,12 +33,17 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:OutDir="$(build.artifactStagingDirectory)"'
+    msbuildArgs: ''
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: PublishBuildArtifacts@1
+- task: VSTest@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
