@@ -12,20 +12,33 @@ using Ridvay.Azure.ServiceBus.Client.Abstractions;
 
 namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
 {
-    public class MessageTest: IMessageConsumer<MessageDefault>
+    public class MessageTest : IMessageConsumer<MessageDefault>
     {
-        private ServiceProvider _services;
+        private static IMessageContext<MessageDefault> _receivedMessage;
+        private static SemaphoreSlim _messageLock;
+        private CancellationTokenSource _cancellationTokenSource;
 
         private IHost _host;
-        private CancellationTokenSource _cancellationTokenSource;
+        private ServiceProvider _services;
+
+        /// <summary>
+        ///     Message Handler
+        /// </summary>
+        public Task ConsumeAsync(IMessageContext<MessageDefault> message)
+        {
+            _receivedMessage = message;
+            _messageLock.Release();
+
+            return Task.CompletedTask;
+        }
 
         [SetUp]
         public async Task Setup()
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            
 
-            _host = Host.CreateDefaultBuilder(new string[]{})
+
+            _host = Host.CreateDefaultBuilder(new string[] { })
                 .ConfigureLogging(builder =>
                     builder.SetMinimumLevel(LogLevel.Warning))
                 .ConfigureServices((hostContext, services) =>
@@ -35,7 +48,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
                         .AddConsumer<MessageTest>();
                     _services = services.BuildServiceProvider();
                 }).Build();
-               
+
             await _host.StartAsync(_cancellationTokenSource.Token);
         }
 
@@ -49,32 +62,26 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
 
             var lf = _services.GetRequiredService<IHostApplicationLifetime>();
             lf.StopApplication();
-            
         }
-
-
-        private static IMessageContext<MessageDefault> _receivedMessage;
-        private static SemaphoreSlim _messageLock;
 
         [Test]
         public async Task Should_Return_Correct_Return_Message()
         {
-            _messageLock = new SemaphoreSlim(0,1);
+            _messageLock = new SemaphoreSlim(0, 1);
 
             RemoveQueue<MessageDefault>();
 
             var sender = _services.GetService<IMessageSender>();
 
-            var msg = new MessageDefault() { TestString = Guid.NewGuid().ToString() };
+            var msg = new MessageDefault { TestString = Guid.NewGuid().ToString() };
             await sender.SendAsync(msg);
 
             await _messageLock.WaitAsync(TimeSpan.FromMinutes(1));
-            
-            
+
+
             Assert.IsNotNull(_receivedMessage);
 
             Assert.AreEqual(msg.TestString, _receivedMessage.Message.TestString);
-
         }
 
         [Test]
@@ -86,7 +93,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
 
             var sender = _services.GetService<IMessageSender>();
 
-            var msg = new MessageDefault()
+            var msg = new MessageDefault
             {
                 TestString = Guid.NewGuid().ToString()
             };
@@ -97,22 +104,10 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
             await _messageLock.WaitAsync(TimeSpan.FromMinutes(5));
             sw.Stop();
 
-            Assert.AreEqual(1,(int)sw.Elapsed.TotalMinutes);
+            Assert.AreEqual(1, (int)sw.Elapsed.TotalMinutes);
             Assert.IsNotNull(_receivedMessage);
 
             Assert.AreEqual(msg.TestString, _receivedMessage.Message.TestString);
-
-        }
-
-        /// <summary>
-        /// Message Handler
-        /// </summary>
-        public Task ConsumeAsync(IMessageContext<MessageDefault> message)
-        {
-            _receivedMessage = message;
-            _messageLock.Release();
-
-            return Task.CompletedTask;
         }
 
 

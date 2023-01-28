@@ -1,9 +1,9 @@
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using Azure.Messaging.ServiceBus;
 
 [assembly: InternalsVisibleTo("Ridvay.Azure.ServiceBus.Client.UnitTest")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+
 namespace Ridvay.Azure.ServiceBus.Client
 {
     public class ServiceBusSettings
@@ -12,6 +12,4 @@ namespace Ridvay.Azure.ServiceBus.Client
 
         public ServiceBusClientOptions ClientOptions { get; set; }
     }
-    
-
 }

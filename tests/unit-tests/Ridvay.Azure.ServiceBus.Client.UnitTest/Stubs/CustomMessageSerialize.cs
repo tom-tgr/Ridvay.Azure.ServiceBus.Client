@@ -11,12 +11,11 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
 
         public T Deserialize<T>(string obj)
         {
-            return default(T);
+            return default;
         }
     }
 
-    public class IMessageConsummer : IMessageConsumer
+    public class MessageConsumer : IMessageConsumer
     {
-
     }
 }

@@ -11,19 +11,19 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
     public class ServiceRegistrationTests
     {
         private const string ConnectionStringDummyValue = "Endpoint=123;SharedAccessKeyName=123;SharedAccessKey=123";
+
         [Test]
         public void Should_Register_Default_Implementations()
         {
             var serviceProvider = new ServiceCollection()
                 .AddServiceBusClient(ConnectionStringDummyValue)
                 .BuildServiceProvider();
-            
+
             serviceProvider.GetRequiredService<IMessageSender>();
             serviceProvider.GetRequiredService<IServiceBusAdministrator>();
             serviceProvider.GetRequiredService<IServiceBusClientManager>();
             serviceProvider.GetRequiredService<IConsumerAttributeParserService>();
             serviceProvider.GetRequiredService<IMessageSerialize>();
-
         }
 
         [Test]
@@ -34,8 +34,8 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
                 .AddTransient<IMessageSerialize, CustomMessageSerialize>()
                 .BuildServiceProvider();
 
-            
-            var serializer =  serviceProvider.GetRequiredService<IMessageSerialize>();
+
+            var serializer = serviceProvider.GetRequiredService<IMessageSerialize>();
             Assert.AreEqual(typeof(CustomMessageSerialize), serializer.GetType());
             Assert.AreEqual("👍", serializer.Serialize(new CustomMessageSerialize()));
         }
@@ -66,8 +66,9 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
 
             var processors = serviceProvider.GetServices<IHostedService>();
             Assert.AreEqual(typeof(MessageConsumerRequestReplayStub), service.GetType());
-            Assert.IsTrue(processors.Any(a=>a.GetType() == typeof(MessageConsumerRequestReplayMessageService<MessageDummyType, MessageDummyType>)));
+            Assert.IsTrue(processors.Any(a => a.GetType() == typeof(MessageConsumerRequestReplayMessageService<MessageDummyType, MessageDummyType>)));
         }
+
         [Test]
         public void Should_Throw_On_Same_RequestReplay_Consumer()
         {
@@ -76,7 +77,6 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
                 .AddConsumer<MessageConsumerRequestReplayStub>()
                 .AddConsumer<MessageConsumerRequestReplayStub>()
                 .BuildServiceProvider());
-
         }
 
         [Test]
@@ -87,7 +87,6 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
                 .AddConsumer<MessageConsumerRequestReplayStub>()
                 .AddConsumer<MessageConsumerRequestReplay_SameImplementationStub>()
                 .BuildServiceProvider());
-            
         }
 
 
@@ -99,10 +98,10 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
                 .AddConsumer<MessageConsumerRequestReplayMultipleConsumersStub>()
                 .BuildServiceProvider();
 
-            
+
             var service1 = serviceProvider.GetRequiredService<IMessageConsumer<MessageDummyType, MessageDummyType>>();
             var service2 = serviceProvider.GetRequiredService<IMessageConsumer<MessageDummyType2, MessageDummyType2>>();
-            
+
 
             var processors = serviceProvider.GetServices<IHostedService>().ToList();
             Assert.AreEqual(typeof(MessageConsumerRequestReplayMultipleConsumersStub), service1.GetType());
@@ -110,6 +109,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
             Assert.IsTrue(processors.Any(a => a.GetType() == typeof(MessageConsumerRequestReplayMessageService<MessageDummyType, MessageDummyType>)));
             Assert.IsTrue(processors.Any(a => a.GetType() == typeof(MessageConsumerRequestReplayMessageService<MessageDummyType2, MessageDummyType2>)));
         }
+
         [Test]
         public void Should_Register_Void_Consumer()
         {
@@ -136,7 +136,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
                     .AddConsumer<MessageConsumerVoidStub>()
                     .BuildServiceProvider());
         }
-        
+
         [Test]
         public void Should_Throw_On_Same_Void_Consumer_Implementation()
         {
@@ -144,7 +144,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
                 new ServiceCollection()
                     .AddServiceBusClient(ConnectionStringDummyValue)
                     .AddConsumer<MessageConsumerVoidStub>()
-                    .AddConsumer<MessageConsumerVoidStub_SameImplementationStub>()
+                    .AddConsumer<MessageConsumerVoidStubSameImplementationStub>()
                     .BuildServiceProvider());
         }
 
@@ -179,6 +179,5 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
                     .AddConsumer<MessageConsumerWithIMessageConsumerStub>()
                     .BuildServiceProvider());
         }
-        
     }
 }

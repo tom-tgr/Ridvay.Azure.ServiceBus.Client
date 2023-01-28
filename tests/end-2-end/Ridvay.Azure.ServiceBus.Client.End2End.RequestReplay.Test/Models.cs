@@ -13,7 +13,6 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         public ProduceMessage(IMessageSender sender)
         {
             _sender = sender;
-
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -21,18 +20,19 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
             while (true)
             {
                 var a = await _sender.GetAsync<MessageConcurrent50Prefetch100, BasicMessageResponse>(
-                    new MessageConcurrent50Prefetch100() { TestString = Guid.NewGuid().ToString() });
+                    new MessageConcurrent50Prefetch100 { TestString = Guid.NewGuid().ToString() });
                 Thread.Sleep(1000 * 60);
             }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            return Task.CompletedTask; ;
+            return Task.CompletedTask;
+            ;
         }
     }
 
-    [QueueConsumer( MaxConcurrentCalls = 50, PrefetchCount = 100)]
+    [QueueConsumer(MaxConcurrentCalls = 50, PrefetchCount = 100)]
     public class MessageConcurrent50Prefetch100
     {
         public string TestString { get; set; }
@@ -48,8 +48,8 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
         public string ReturnValue { get; set; }
     }
 
-    public class RequestReplayConsumer : 
-        IMessageConsumer<MessageConcurrent50Prefetch100, BasicMessageResponse>, 
+    public class RequestReplayConsumer :
+        IMessageConsumer<MessageConcurrent50Prefetch100, BasicMessageResponse>,
         IMessageConsumer<MessageDefault, BasicMessageResponse>
     {
         public Task<BasicMessageResponse> ConsumeAsync(IMessageContext<MessageConcurrent50Prefetch100> context)
@@ -57,7 +57,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
             var data = context.Message;
 
 
-            return Task.FromResult(new BasicMessageResponse { ReturnValue = "OK: "+ data.TestString });
+            return Task.FromResult(new BasicMessageResponse { ReturnValue = "OK: " + data.TestString });
         }
 
         public Task<BasicMessageResponse> ConsumeAsync(IMessageContext<MessageDefault> message)
@@ -67,5 +67,4 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
             return Task.FromResult(new BasicMessageResponse { ReturnValue = "OK: " + data.TestString });
         }
     }
-
 }

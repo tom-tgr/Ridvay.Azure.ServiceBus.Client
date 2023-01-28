@@ -4,15 +4,14 @@ using AsyncKeyedLock;
 using Azure.Messaging.ServiceBus;
 using Azure.Messaging.ServiceBus.Administration;
 using Microsoft.Extensions.Options;
-using Ridvay.Azure.ServiceBus.Client.Helpers;
 
 namespace Ridvay.Azure.ServiceBus.Client
 {
     internal class ServiceBusClientManager : IServiceBusClientManager, IAsyncDisposable
     {
-        private readonly ServiceBusSettings _settings;
-        private readonly IServiceBusAdministrator _busAdministrator;
         private readonly AsyncKeyedLocker<string> _asyncKeyedLocker;
+        private readonly IServiceBusAdministrator _busAdministrator;
+        private readonly ServiceBusSettings _settings;
         private ServiceBusClient _client;
 
         public ServiceBusClientManager(IOptions<ServiceBusSettings> settings, IServiceBusAdministrator busAdministrator, AsyncKeyedLocker<string> asyncKeyedLocker)
@@ -23,10 +22,11 @@ namespace Ridvay.Azure.ServiceBus.Client
             CreateNewClient();
         }
 
-        private void CreateNewClient()
+        public ValueTask DisposeAsync()
         {
-            _client = new ServiceBusClient(_settings.ConnectionString,
-                _settings.ClientOptions ?? new ServiceBusClientOptions());
+            if (_client is { IsClosed: false }) return _client.DisposeAsync();
+
+            return ValueTask.CompletedTask;
         }
 
         public IServiceBusSenderWrapped CreateSender(string queueOrTopicName)
@@ -74,17 +74,11 @@ namespace Ridvay.Azure.ServiceBus.Client
             CreateNewClient();
             return this;
         }
-        
-        public ValueTask DisposeAsync()
+
+        private void CreateNewClient()
         {
-            if (_client is { IsClosed: false })
-            {
-                return _client.DisposeAsync();
-            }
-            
-            return ValueTask.CompletedTask;
+            _client = new ServiceBusClient(_settings.ConnectionString,
+                _settings.ClientOptions ?? new ServiceBusClientOptions());
         }
     }
-
-   
 }

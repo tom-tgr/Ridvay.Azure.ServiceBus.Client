@@ -11,13 +11,12 @@ namespace Ridvay.Azure.ServiceBus.Client
     {
         private readonly IServiceBusAdministrator _busAdministrator;
         private ServiceBusProcessor _processor;
-        protected IServiceBusClientManager ClientManager;
+        protected readonly IServiceBusClientManager ClientManager;
 
         internal MessageConsumerServiceBase(
-
             IServiceBusClientManager clientManagerFactory,
             IServiceBusAdministrator busAdministrator
-            )
+        )
         {
             _busAdministrator = busAdministrator;
             ClientManager = clientManagerFactory;
@@ -27,6 +26,22 @@ namespace Ridvay.Azure.ServiceBus.Client
         protected abstract string TopicOrQueueName { get; }
         protected abstract ServiceBusProcessorOptions Options { get; }
         protected abstract TopicConsumerAttribute TopicConsumerAttribute { get; }
+
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            await CreateProcessor(cancellationToken);
+
+            _processor.ProcessMessageAsync += ProcessorOnProcessMessageAsync;
+            _processor.ProcessErrorAsync += ProcessorOnProcessErrorAsync;
+
+            await _processor.StartProcessingAsync(cancellationToken);
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
         protected abstract Task ProcessMessage(ProcessMessageEventArgs args);
 
         protected virtual Task ProcessMessageError(ProcessErrorEventArgs args)
@@ -34,28 +49,12 @@ namespace Ridvay.Azure.ServiceBus.Client
             return Task.CompletedTask;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            
-            await CreateProcessor(cancellationToken);
-
-            _processor.ProcessMessageAsync += ProcessorOnProcessMessageAsync;
-            _processor.ProcessErrorAsync += ProcessorOnProcessErrorAsync;
-
-            await _processor.StartProcessingAsync(cancellationToken);
-            
-        }
-
         private async Task CreateProcessor(CancellationToken cancellationToken)
         {
             if (IsTopic)
-            {
                 await CreateTopicProcessor(cancellationToken, ClientManager);
-            }
             else
-            {
                 await CreateQueueProcessor(cancellationToken, ClientManager);
-            }
         }
 
         private async Task CreateQueueProcessor(CancellationToken cancellationToken, IServiceBusClientManager clientManager)
@@ -81,15 +80,11 @@ namespace Ridvay.Azure.ServiceBus.Client
         {
             await ProcessMessage(args);
         }
+
         private Task ProcessorOnProcessErrorAsync(ProcessErrorEventArgs args)
         {
             ProcessMessageError(args);
             Console.WriteLine(args.Exception.ToString());
-            return Task.CompletedTask;
-        }
-        
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
             return Task.CompletedTask;
         }
 
