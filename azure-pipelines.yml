@@ -24,12 +24,17 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'pack'
-    packagesToPack: '**/*.csproj'
-    includesymbols: true
-    includesource: true
-    versioningScheme: 'off'
-    buildProperties: 'version=$(Build.BuildNumber);SolutionDir=$(Build.SourcesDirectory)\;'
+    command: 'build'
+    arguments: 'version=$(Build.BuildNumber)'
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'pack'
+#     packagesToPack: '**/*.csproj'
+#     includesymbols: true
+#     includesource: true
+#     versioningScheme: 'off'
+#     buildProperties: 'version=$(Build.BuildNumber);SolutionDir=$(Build.SourcesDirectory)\;'
 
 - task: PublishBuildArtifacts@1
   inputs:
