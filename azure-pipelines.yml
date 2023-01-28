@@ -4,9 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
 
 trigger:
-  branches:
-      include:
-      - releases/*
+- releases/*
 
 pool:
   vmImage: 'windows-latest'
