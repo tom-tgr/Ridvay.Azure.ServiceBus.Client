@@ -13,6 +13,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  buildVersion: '$(Build.SourceBranchName).$(Build.TriggeredBy.BuildId)'
 
 steps:
 
@@ -33,7 +34,7 @@ steps:
     includesymbols: true
     includesource: true
     versioningScheme: 'off'
-    buildProperties: 'version=$(Build.SourceBranchName).$(Build.TriggeredBy.BuildId);SolutionDir=$(Build.SourcesDirectory)\;'
+    buildProperties: 'version=$(buildVersion);SolutionDir=$(Build.SourcesDirectory)\;'
 
 - task: PublishBuildArtifacts@1
   inputs:
