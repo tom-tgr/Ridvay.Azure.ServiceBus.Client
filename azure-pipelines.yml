@@ -1,6 +1,10 @@
 trigger:
-- releases/*
-
+  branches:
+    include:
+      - releases/*
+    exclude:
+      - main
+      
 pool:
   vmImage: 'windows-latest'
 
