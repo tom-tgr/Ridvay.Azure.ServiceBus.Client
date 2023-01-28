@@ -6,7 +6,6 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
