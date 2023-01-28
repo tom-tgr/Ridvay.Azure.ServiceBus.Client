@@ -15,7 +15,6 @@
 		<Authors>tom-tgr</Authors>
 		<Company>Ridvay</Company>
 		<Product>ServiceBus Client</Product>
-		<Version>5.0.1-beta</Version>
 		<Copyright />
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>ico.png</PackageIcon>
