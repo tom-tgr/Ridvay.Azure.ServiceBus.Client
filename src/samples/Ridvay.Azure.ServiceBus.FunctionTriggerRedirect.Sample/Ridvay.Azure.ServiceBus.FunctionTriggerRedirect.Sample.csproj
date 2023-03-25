@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AzureFunctionsVersion>V4</AzureFunctionsVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />        
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="host.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="local.settings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Ridvay.Azure.Function.TriggerRedirects\Ridvay.Azure.Function.TriggerRedirects.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+      <ProjectReference Include="..\..\Ridvay.Azure.ServiceBus.Client\Ridvay.Azure.ServiceBus.Client.csproj" />
+      <ProjectReference Include="..\Ridvay.Azure.ServiceBus.MessageModels.Samples\Ridvay.Azure.ServiceBus.MessageModels.Samples.csproj" />
+    </ItemGroup>
+</Project>
