@@ -65,14 +65,14 @@ namespace Ridvay.Azure.ServiceBus.Client
             {
                 var args = type.GetGenericArguments();
                 var messageType = args[0];
-
-                var b = services.Where(a =>
+                
+                var allHostedServices = services.Where(a =>
                         a.ImplementationType != null &&
                         a.ServiceType == typeof(IHostedService) &&
-                        a.ImplementationType.IsAssignableTo(typeof(MessageConsumerServiceBase)))
+                        typeof(MessageConsumerServiceBase).IsAssignableFrom(a.ImplementationType))
                     .Select(a => a.ImplementationType).ToList();
-
-                b.ForEach(a =>
+                
+                allHostedServices.ForEach(a =>
                 {
                     if (a.GetGenericArguments().First() == messageType)
                         throw new ArgumentException(
