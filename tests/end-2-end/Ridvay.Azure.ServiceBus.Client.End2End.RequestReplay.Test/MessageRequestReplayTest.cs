@@ -14,12 +14,12 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
 {
     public class MessageRequestReplayTest
     {
-        private readonly object _lock = new();
+        private readonly object _lock = new object();
         private CancellationTokenSource _cancellationTokenSource;
         private IHost _host;
         private ServiceProvider _services;
 
-        [SetUp]
+        [OneTimeSetUp]
         public async Task Setup()
         {
             _cancellationTokenSource = new CancellationTokenSource();
@@ -39,7 +39,7 @@ namespace Ridvay.Azure.ServiceBus.Client.End2End.Test
             await _host.StartAsync(_cancellationTokenSource.Token);
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public async Task TearDown()
         {
             //Not working
