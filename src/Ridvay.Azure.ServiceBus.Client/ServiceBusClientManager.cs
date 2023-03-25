@@ -26,7 +26,8 @@ namespace Ridvay.Azure.ServiceBus.Client
         {
             if (_client is { IsClosed: false }) return _client.DisposeAsync();
 
-            return ValueTask.CompletedTask;
+            
+            return default;
         }
 
         public IServiceBusSenderWrapped CreateSender(string queueOrTopicName)

@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(SolutionDir)src\build.targets"/>
+    <Import Project="$(SolutionDir)src\build.targets" />
     <PropertyGroup>
         <Description>This package is used to configure POCO/DTO transfer options for Ridvay.Azure.ServiceBus.Client</Description>
     </PropertyGroup>
