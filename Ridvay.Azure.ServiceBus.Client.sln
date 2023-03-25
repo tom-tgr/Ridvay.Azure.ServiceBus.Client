@@ -19,6 +19,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ridvay.Azure.ServiceBus.Cli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ridvay.Azure.ServiceBus.Client.Abstractions", "src\Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj", "{5E4F5E63-8E13-45AA-8142-7A21D8530054}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ridvay.Azure.Function.TriggerRedirects", "src\Ridvay.Azure.Function.TriggerRedirects\Ridvay.Azure.Function.TriggerRedirects.csproj", "{E3720DDB-224A-481D-986B-1392EBB0732F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{37381219-C127-4AA5-B62D-940A23B2FE34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ridvay.Azure.ServiceBus.FunctionTriggerRedirect.Sample", "src\samples\Ridvay.Azure.ServiceBus.FunctionTriggerRedirect.Sample\Ridvay.Azure.ServiceBus.FunctionTriggerRedirect.Sample.csproj", "{3EF636C1-5CA9-4A87-BC48-DDC3F5738E45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ridvay.Azure.ServiceBus.MessageModels.Samples", "src\samples\Ridvay.Azure.ServiceBus.MessageModels.Samples\Ridvay.Azure.ServiceBus.MessageModels.Samples.csproj", "{09F1712E-85AF-414B-A30A-3EA538104395}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ridvay.Azure.Function.TriggerRedirects.Tests", "tests\unit-tests\Ridvay.Azure.Function.TriggerRedirects.Tests\Ridvay.Azure.Function.TriggerRedirects.Tests.csproj", "{7059BA9B-D4DB-4440-9BE7-22A57CA791CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +51,22 @@ Global
 		{5E4F5E63-8E13-45AA-8142-7A21D8530054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E4F5E63-8E13-45AA-8142-7A21D8530054}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E4F5E63-8E13-45AA-8142-7A21D8530054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3720DDB-224A-481D-986B-1392EBB0732F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3720DDB-224A-481D-986B-1392EBB0732F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3720DDB-224A-481D-986B-1392EBB0732F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3720DDB-224A-481D-986B-1392EBB0732F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EF636C1-5CA9-4A87-BC48-DDC3F5738E45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EF636C1-5CA9-4A87-BC48-DDC3F5738E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EF636C1-5CA9-4A87-BC48-DDC3F5738E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EF636C1-5CA9-4A87-BC48-DDC3F5738E45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F1712E-85AF-414B-A30A-3EA538104395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F1712E-85AF-414B-A30A-3EA538104395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F1712E-85AF-414B-A30A-3EA538104395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F1712E-85AF-414B-A30A-3EA538104395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7059BA9B-D4DB-4440-9BE7-22A57CA791CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7059BA9B-D4DB-4440-9BE7-22A57CA791CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7059BA9B-D4DB-4440-9BE7-22A57CA791CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7059BA9B-D4DB-4440-9BE7-22A57CA791CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +78,11 @@ Global
 		{8EFF5E82-5315-4465-A395-494D692346CF} = {F19AF011-0C6B-4C66-9A91-4B3BEC04739A}
 		{4787C4DA-26DF-4E38-B347-1E0A68E59C02} = {8EFF5E82-5315-4465-A395-494D692346CF}
 		{5E4F5E63-8E13-45AA-8142-7A21D8530054} = {AF8849BF-2648-4D97-BD0A-20CEB0E37009}
+		{E3720DDB-224A-481D-986B-1392EBB0732F} = {AF8849BF-2648-4D97-BD0A-20CEB0E37009}
+		{37381219-C127-4AA5-B62D-940A23B2FE34} = {AF8849BF-2648-4D97-BD0A-20CEB0E37009}
+		{3EF636C1-5CA9-4A87-BC48-DDC3F5738E45} = {37381219-C127-4AA5-B62D-940A23B2FE34}
+		{09F1712E-85AF-414B-A30A-3EA538104395} = {37381219-C127-4AA5-B62D-940A23B2FE34}
+		{7059BA9B-D4DB-4440-9BE7-22A57CA791CD} = {63DEBEF6-B5BB-4454-B495-602E13EE8C7A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F29DA60E-A5FA-493A-B758-526C4A3F2FFC}
