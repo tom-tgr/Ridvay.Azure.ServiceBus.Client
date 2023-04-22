@@ -36,8 +36,8 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
 
 
             var serializer = serviceProvider.GetRequiredService<IMessageSerialize>();
-            Assert.AreEqual(typeof(CustomMessageSerialize), serializer.GetType());
-            Assert.AreEqual("👍", serializer.Serialize(new CustomMessageSerialize()));
+            Assert.That(serializer.GetType(), Is.EqualTo(typeof(CustomMessageSerialize)));
+            Assert.That(serializer.Serialize(new CustomMessageSerialize()), Is.EqualTo("👍"));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
 
             var serializer = serviceProvider.GetRequiredService<IMessageSender>();
 
-            Assert.AreEqual(typeof(MessageSender), serializer.GetType());
+            Assert.That(serializer.GetType(), Is.EqualTo(typeof(MessageSender)));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
             var service = serviceProvider.GetRequiredService<IMessageConsumer<MessageDummyType, MessageDummyType>>();
 
             var processors = serviceProvider.GetServices<IHostedService>();
-            Assert.AreEqual(typeof(MessageConsumerRequestReplayStub), service.GetType());
+            Assert.That(service.GetType(), Is.EqualTo(typeof(MessageConsumerRequestReplayStub)));
             Assert.IsTrue(processors.Any(a => a.GetType() == typeof(MessageConsumerRequestReplayMessageService<MessageDummyType, MessageDummyType>)));
         }
 
@@ -104,8 +104,8 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
 
 
             var processors = serviceProvider.GetServices<IHostedService>().ToList();
-            Assert.AreEqual(typeof(MessageConsumerRequestReplayMultipleConsumersStub), service1.GetType());
-            Assert.AreEqual(typeof(MessageConsumerRequestReplayMultipleConsumersStub), service2.GetType());
+            Assert.That(service1.GetType(), Is.EqualTo(typeof(MessageConsumerRequestReplayMultipleConsumersStub)));
+            Assert.That(service2.GetType(), Is.EqualTo(typeof(MessageConsumerRequestReplayMultipleConsumersStub)));
             Assert.IsTrue(processors.Any(a => a.GetType() == typeof(MessageConsumerRequestReplayMessageService<MessageDummyType, MessageDummyType>)));
             Assert.IsTrue(processors.Any(a => a.GetType() == typeof(MessageConsumerRequestReplayMessageService<MessageDummyType2, MessageDummyType2>)));
         }
@@ -122,7 +122,7 @@ namespace Ridvay.Azure.ServiceBus.Client.UnitTest
             var service = serviceProvider.GetRequiredService<IMessageConsumer<MessageDummyType>>();
 
             var processors = serviceProvider.GetServices<IHostedService>();
-            Assert.AreEqual(typeof(MessageConsumerVoidStub), service.GetType());
+            Assert.That(service.GetType(), Is.EqualTo(typeof(MessageConsumerVoidStub)));
             Assert.IsTrue(processors.Any(a => a.GetType() == typeof(MessageConsumerVoidMessageService<MessageDummyType>)));
         }
 
