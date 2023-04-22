@@ -30,26 +30,27 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: ''
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'build'
+    projects: '$(solution)'
 
-- task: VSTest@2
+# - task: VSBuild@1
+#   inputs:
+#     solution: 
+#     msbuildArgs: ''
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
   inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
+    command: 'test'
+    projects: |
       **\*Test.dll
-      **\*Tests.dll
-      !**\*End2End.Test.dll
+       **\*Tests.dll
+       !**\*End2End.Test.dll
       !**\*TestAdapter.dll
       !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    codeCoverageEnabled: true
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
 
 - task: SonarCloudAnalyze@1
 
