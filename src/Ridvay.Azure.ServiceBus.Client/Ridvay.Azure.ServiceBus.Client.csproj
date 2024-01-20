@@ -1,19 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(SolutionDir)src\build.targets"/>
+    <Import Project="$(SolutionDir)src\build.targets" />
     <PropertyGroup>
         <Description>POCO/DTO driven Azure ServiceBus client</Description>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AsyncKeyedLock" Version="6.2.2"/>
-        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.7"/>
-        <PackageReference Include="Microsoft.Extensions.Azure" Version="1.1"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0"/>
+        <PackageReference Include="AsyncKeyedLock" Version="6.3.3" />
+        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.7" />
+        <PackageReference Include="Microsoft.Extensions.Azure" Version="1.1" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj"/>
+        <ProjectReference Include="..\Ridvay.Azure.ServiceBus.Client.Abstractions\Ridvay.Azure.ServiceBus.Client.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>
