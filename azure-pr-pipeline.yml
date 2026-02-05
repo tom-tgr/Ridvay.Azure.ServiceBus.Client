@@ -18,7 +18,7 @@ variables:
 
 steps:
 
-- task: RidvaySecurity@1
+- task: RidvaySecurity@1.1.0
   inputs:
     serviceConnection: 'Ridvay API'
     scanType: 'diff'
