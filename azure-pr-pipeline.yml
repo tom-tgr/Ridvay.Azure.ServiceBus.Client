@@ -22,7 +22,7 @@ steps:
   inputs:
     serviceConnection: 'Ridvay API'
     scanType: 'diff'
-    failOnSeverity: 'high'
+    failOnSeverity: 'medium'
     postComments: false
 
 - task: NuGetToolInstaller@1
