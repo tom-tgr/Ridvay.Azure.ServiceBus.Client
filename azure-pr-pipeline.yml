@@ -16,13 +16,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud Ridvay Public'
-    organization: 'ridvay'
-    scannerMode: 'MSBuild'
-    projectKey: 'ridvay_ridvay-azure-servicebus-client'
-    projectName: 'Ridvay.Azure.ServiceBus.Client'
 
 - task: NuGetToolInstaller@1
 
@@ -52,8 +45,3 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
 
-- task: SonarCloudAnalyze@1
-
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
